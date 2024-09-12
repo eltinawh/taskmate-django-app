@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Edit Task - Taskmate</title>
+{% endblock title %}
+
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+</br>
+    {% if task_obj.owner == request.user %}
+    <form method="POST" class="row">
+        {% csrf_token %}
+        <div class="col-lg-2"><label></label></div>
+        <div class="col-lg-6"><input type="text" class="form-control" name="task" placeholder="{{ task_obj.task }}" value="{{ task_obj.task }}"></div>
+        <input type="hidden" name="done" value="{{ task_obj.done }}">
+        <div class="col-lg-2"><button type="submit" class="btn btn-primary">Update Task</button></div>
+    </form>
+    {% else %}
+    <div class="container">Access restricted. You are not allowed!</div>
+    {% endif %}
+{% endblock content %}
