@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from todolist_app.models import TaskList
-from todolist_app.forms import TaskForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from todolist_app.models import TaskList
+from todolist_app.forms import TaskForm
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 # Create your views here.
@@ -75,15 +78,40 @@ def delete_task(request, task_id):
 
 
 def contact(request):
+    if request.method == "POST":
+        context = {
+            "name": request.POST.get("name"),
+            "email": request.POST.get("email"),
+            "subject": f"Taskmate Contact Us: {request.POST.get('subject')}",
+            "message": request.POST.get("message"),
+        }
+        
+        html_content = render_to_string(
+            template_name="email.html",
+            context=context,
+        )
+        try:
+            send_mail(
+                subject=context["subject"],
+                message=None,
+                html_message=html_content,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[settings.EMAIL_HOST_USER],
+                fail_silently=False,
+            )
+        except:
+            messages.error(request, "There is an error, could not sent the message.")
+        else:
+            messages.success(request, "Message sent!")
     context = {
-        'contact_text': "Welcome to Contact Page.",
+        'contact_text': "Contact Us",
     }
     return render(request, 'contact.html', context)
 
 
 def about(request):
     context = {
-        'about_text': "Welcome to About Page.",
+        'about_text': "About Us",
     }
     return render(request, 'about.html', context)
 
