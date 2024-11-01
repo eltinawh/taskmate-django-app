@@ -25,6 +25,11 @@ If you want to try out, you can use this credential.
 
 Username: demo  
 Password: taskMate@43
+
+## Technical Details
+
+Database: Serverless PostgreSQL on Railway
+Email Backend: Google Mail SMTP
   
 ## Documentation
 
