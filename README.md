@@ -28,8 +28,8 @@ Password: taskMate@43
 
 ## Technical Details
 
-Database: Serverless PostgreSQL on Railway
-Email Backend: Google Mail SMTP
+- Database: Serverless PostgreSQL on Railway
+- Email Backend: Google Mail SMTP
   
 ## Documentation
 
